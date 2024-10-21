@@ -1,21 +1,4 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/admin/page": "app/admin/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
   "/page": "app/page.js",
-  "/api/education/add/route": "app/api/education/add/route.js",
-  "/api/about/get/route": "app/api/about/get/route.js",
-  "/api/contact/get/route": "app/api/contact/get/route.js",
-  "/api/education/get/route": "app/api/education/get/route.js",
-  "/api/about/add/route": "app/api/about/add/route.js",
-  "/api/contact/add/route": "app/api/contact/add/route.js",
-  "/api/home/get/route": "app/api/home/get/route.js",
-  "/api/about/update/route": "app/api/about/update/route.js",
-  "/api/experience/get/route": "app/api/experience/get/route.js",
-  "/api/login/route": "app/api/login/route.js",
-  "/api/home/add/route": "app/api/home/add/route.js",
-  "/api/home/update/route": "app/api/home/update/route.js",
-  "/api/experience/add/route": "app/api/experience/add/route.js",
-  "/api/project/add/route": "app/api/project/add/route.js",
-  "/api/project/get/route": "app/api/project/get/route.js"
+  "/favicon.ico/route": "app/favicon.ico/route.js"
 }

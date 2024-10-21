@@ -11,7 +11,7 @@ export default async function connectToDB() {
       useUnifiedTopology: true,
     });
 
-    console.log("Database connected successfully");
+    console.log("Database connected successfully", process.env.MONGODB_URI);
   } catch (e) {
     console.log("Database connection error: ", e);
   }
