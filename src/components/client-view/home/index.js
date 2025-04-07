@@ -137,11 +137,11 @@ export default function ClientHomeView({ data }) {
               ))}
             </motion.div>
           </div>
-      <motion.div ref={containerRef} className="flex justify-center md:justify-end w-full px-4 md:px-10 lg:px-20 py-10">
+      <motion.div ref={containerRef} className="flex justify-center md:justify-end w-full px-4 md:px-10 lg:px-20 py-12">
       <motion.div
         drag
         dragConstraints={containerRef}
-        className="relative bg-[#6C2DC7] rounded-xl shadow-lg w-[200px] h-[260px] sm:w-[220px] sm:h-[280px] md:w-[250px] md:h-[300px] lg:w-[280px] lg:h-[340px]"
+        className="relative bg-[#6C2DC7] rounded-xl shadow-lg w-[200px] h-[262px] sm:w-[220px] sm:h-[282px] md:w-[250px] md:h-[302px] lg:w-[280px] lg:h-[342px]"
       >
         {/* Border Frame */}
         <div className="absolute rounded-xl border-[6px] border-black top-[20px] left-[-20px] w-full h-full z-0"></div>
