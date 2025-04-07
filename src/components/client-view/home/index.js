@@ -149,8 +149,8 @@ export default function ClientHomeView({ data }) {
                 alt="Profile Picture"
                 layout="responsive"
                 quality={100}
-                height={180}
-                width={170}
+                height={140}
+                width={160}
                 className="absolute top-[-15px]"
               />
             </motion.div>
