@@ -137,24 +137,24 @@ export default function ClientHomeView({ data }) {
               ))}
             </motion.div>
           </div>
-          <motion.div ref={containerRef} className="flex justify-end w-full">
-            <motion.div
-              drag
-              dragConstraints={containerRef}
-              className="w-[400px] h-[400px] relative bg-[#6C2DC7]"
-            >
-              <div className="w-[400px] h-[400px] top-[40px] left-[-30px] rounded-lg border-[6px] border-[#000000] absolute"></div>
-              <Image
-                src={aiImage}
-                alt="Profile Picture"
-                layout="responsive"
-                quality={100}
-                height={250}
-                width={200}
-                className="absolute top-[-15px]"
-              />
-            </motion.div>
-          </motion.div>
+         <motion.div ref={containerRef} className="flex justify-end w-full">
+  <motion.div
+    drag
+    dragConstraints={containerRef}
+    className="w-[200px] h-[250px] relative bg-[#6C2DC7] rounded-lg"
+  >
+    <div className="w-[200px] h-[250px] top-[10px] left-[-10px] rounded-lg border-[4px] border-[#000000] absolute"></div>
+
+    <Image
+      src={aiImage}
+      alt="Profile Picture"
+      height={250}
+      width={200}
+      className="absolute top-0 left-0 object-cover rounded-lg"
+    />
+  </motion.div>
+</motion.div>
+
         </motion.div>
       </AnimationWrapper>
     </div>
