@@ -1,18 +1,26 @@
 import mongoose from "mongoose";
-import dotenv from "dotenv";
 
-dotenv.config(); // Load environment variables
+// MongoDB URI - Next.js automatically loads .env files
+const MONGODB_URI = process.env.MONGODB_URI;
 
 export default async function connectToDB() {
   try {
-    if (mongoose.connections[0].readyState) return; // Check if already connected
-    await mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    // Check if already connected
+    if (mongoose.connections[0].readyState) {
+      console.log("Already connected to database");
+      return;
+    }
 
-    console.log("Database connected successfully", process.env.MONGODB_URI);
+    // Validate MongoDB URI
+    if (!MONGODB_URI) {
+      console.error("MONGODB_URI is not defined in environment variables");
+      throw new Error("Please define MONGODB_URI in your .env file");
+    }
+
+    await mongoose.connect(MONGODB_URI);
+    console.log("Database connected successfully");
   } catch (e) {
-    console.log("Database connection error: ", e);
+    console.error("Database connection error:", e.message);
+    throw e;
   }
 }
