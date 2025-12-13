@@ -60,10 +60,24 @@ import ClientExperienceAndEducationView from "@/components/client-view/experienc
 import ClientHomeView from "@/components/client-view/home";
 import ClientProjectView from "@/components/client-view/project";
 
+// Get base URL with fallback
+const getBaseUrl = () => {
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    return process.env.NEXT_PUBLIC_API_URL;
+  }
+  // Fallback for development
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}/api`;
+  }
+  return "http://localhost:3000/api";
+};
+
 async function extractAllDatas(currentSection) {
+  const baseUrl = getBaseUrl();
+  
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/${currentSection}/get`,
+      `${baseUrl}/${currentSection}/get`,
       {
         method: "GET",
         cache: "no-store",
@@ -72,16 +86,15 @@ async function extractAllDatas(currentSection) {
 
     // Check if the response is not OK
     if (!res.ok) {
-      const errorText = await res.text(); // get the response text
-      console.error(`Error fetching ${currentSection}:`, errorText); // log the error text
-      throw new Error(`Failed to fetch ${currentSection}: ${res.status}`);
+      // Don't log full error in production, just return null
+      return null;
     }
 
     const data = await res.json();
-    return data && data.data; // Ensure your API returns the expected structure
+    return data && data.data;
   } catch (error) {
-    console.error("Failed to fetch data:", error);
-    return null; // Return null if an error occurs
+    // Silently fail and return null - components have fallback data
+    return null;
   }
 }
 

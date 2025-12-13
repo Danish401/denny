@@ -448,10 +448,8 @@ export default function ClientHomeView({ data }) {
                       src={aiImage}
                       alt="Danish Ali - Full Stack Developer"
                       fill
-                      sizes="(max-width: 640px) 220px, (max-width: 768px) 260px, (max-width: 1024px) 300px, 340px"
                       style={{ objectFit: "cover" }}
                       className="rounded-2xl"
-                      placeholder="blur"
                       priority
                     />
 

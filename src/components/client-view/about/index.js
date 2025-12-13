@@ -5,14 +5,14 @@ import AnimationWrapper from "../animation-wrapper";
 import { motion, useInView, useMotionValue, useTransform } from "framer-motion";
 import Image from "next/image";
 import aboutMeImage from "../../../assets/about-image.png";
-import zohoCrmLogo from "../../../assets/zoho-crm.png";
-import zohoBooksLogo from "../../../assets/zoho-books.png";
-import zohoCreatorLogo from "../../../assets/zoho-creator.png";
 import {
   FaUsers,
   FaProjectDiagram,
   FaBriefcase,
   FaCode,
+  FaLaptopCode,
+  FaServer,
+  FaMobileAlt,
   FaReact,
   FaNodeJs,
   FaHtml5,
@@ -24,7 +24,10 @@ import {
   FaAws,
   FaDatabase,
   FaFigma,
+  FaBook,
+  FaUsersCog,
 } from "react-icons/fa";
+import { SiZoho } from "react-icons/si";
 import {
   SiNextdotjs,
   SiTypescript,
@@ -181,22 +184,20 @@ const skillIconsMap = {
   "figma": { icon: FaFigma, color: "#F24E1E" },
   "database": { icon: FaDatabase, color: "#7C3AED" },
   "sql": { icon: FaDatabase, color: "#336791" },
+  "zoho": { icon: SiZoho, color: "#C8202B" },
+  "zoho creator": { icon: SiZoho, color: "#C8202B" },
+  "zoho crm": { icon: SiZoho, color: "#C8202B" },
+  "crm": { icon: FaUsersCog, color: "#7C3AED" },
+  "book": { icon: FaBook, color: "#8B4513" },
+  "books": { icon: FaBook, color: "#8B4513" },
 };
 
-// Zoho products with actual logos
-const zohoLogosMap = {
-  "zoho crm": { logo: zohoCrmLogo, color: "#C8202B" },
-  "zoho creator": { logo: zohoCreatorLogo, color: "#0078D4" },
-  "zoho books": { logo: zohoBooksLogo, color: "#4CAF50" },
-};
-
-// Skill Item Component with 3D effect and icons/logos
+// Skill Item Component with 3D effect and icons
 function SkillItem({ skill, index }) {
   const skillLower = skill.trim().toLowerCase();
   const skillData = skillIconsMap[skillLower];
-  const zohoData = zohoLogosMap[skillLower];
   const IconComponent = skillData?.icon || FaCode;
-  const iconColor = skillData?.color || zohoData?.color || "#7C3AED";
+  const iconColor = skillData?.color || "#7C3AED";
 
   return (
     <motion.div
@@ -213,26 +214,15 @@ function SkillItem({ skill, index }) {
       style={{ transformStyle: "preserve-3d" }}
     >
       <motion.div
-        whileHover={{ scale: 1.2 }}
-        transition={{ duration: 0.3 }}
-        className="flex-shrink-0"
+        whileHover={{ rotate: 360 }}
+        transition={{ duration: 0.5 }}
       >
-        {zohoData ? (
-          <Image 
-            src={zohoData.logo} 
-            alt={skill.trim()} 
-            width={80} 
-            height={24}
-            className="object-contain h-5 sm:h-6 w-auto"
-          />
-        ) : (
-          <IconComponent 
-            className="w-4 h-4 sm:w-5 sm:h-5" 
-            style={{ color: iconColor }}
-          />
-        )}
+        <IconComponent 
+          className="w-4 h-4 sm:w-5 sm:h-5" 
+          style={{ color: iconColor }}
+        />
       </motion.div>
-      {!zohoData && <span>{skill.trim()}</span>}
+      <span>{skill.trim()}</span>
     </motion.div>
   );
 }
@@ -276,10 +266,10 @@ export default function ClientAboutView({ data }) {
         "CSS3",
         "Git",
         "Zoho Creator",
-        "Zoho CRM",
-        "Zoho Books",
+        "CRM",
         "PostgreSQL",
         "Redux",
+        "Framer Motion",
       ];
 
   const techCategories = [
@@ -466,9 +456,7 @@ export default function ClientAboutView({ data }) {
                       src={aboutMeImage}
                       alt="About Me"
                       fill
-                      quality={90}
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      placeholder="blur"
+                      quality={100}
                       className="object-cover rounded-2xl"
                     />
                     {/* Animated Overlay */}
