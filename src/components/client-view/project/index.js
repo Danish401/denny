@@ -454,6 +454,7 @@ export default function ClientProjectView({ data }) {
             style={{
               borderColor: "var(--primary)",
               color: "var(--primary)",
+              transformStyle: "preserve-3d",
             }}
             whileHover={{
               scale: 1.05,
@@ -464,7 +465,6 @@ export default function ClientProjectView({ data }) {
               rotateX: 5,
             }}
             whileTap={{ scale: 0.95 }}
-            style={{ transformStyle: "preserve-3d" }}
           >
             View All Projects
             <motion.span

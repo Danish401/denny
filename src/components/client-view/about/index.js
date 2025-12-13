@@ -576,7 +576,7 @@ export default function ClientAboutView({ data }) {
                   animate={{ x: [0, 5, 0] }}
                   transition={{ duration: 1.5, repeat: Infinity }}
                 >
-                  Let's Work Together →
+                  Let&apos;s Work Together →
                 </motion.span>
               </motion.button>
             </motion.div>

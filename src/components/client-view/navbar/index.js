@@ -154,7 +154,7 @@ export default function Navbar() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  Let's Talk
+                  Let&apos;s Talk
                 </motion.button>
               </LinkScroll>
             </div>
@@ -246,7 +246,7 @@ export default function Navbar() {
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     <button className="btn-gradient w-full py-4 rounded-xl text-white font-semibold text-lg">
-                      Let's Talk
+                      Let&apos;s Talk
                     </button>
                   </LinkScroll>
                 </motion.div>

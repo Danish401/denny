@@ -85,7 +85,6 @@ function TimelineItem({ item, index, type }) {
         }}
         initial={{ scale: 0, rotate: -180 }}
         whileInView={{ scale: 1, rotate: 0 }}
-        transition={{ delay: index * 0.15 + 0.2, type: "spring", stiffness: 200 }}
         viewport={{ once: true }}
         animate={{
           boxShadow: [
@@ -94,7 +93,7 @@ function TimelineItem({ item, index, type }) {
             "0 0 10px rgba(124, 58, 237, 0.4)",
           ],
         }}
-        transition={{ duration: 2, repeat: Infinity }}
+        transition={{ delay: index * 0.15 + 0.2, duration: 2, repeat: Infinity }}
       >
         {/* Pulse Animation */}
         <motion.div

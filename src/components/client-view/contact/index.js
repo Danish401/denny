@@ -273,7 +273,7 @@ export default function ClientContactView() {
               📬 Get In Touch
             </motion.span>
             <h2 className="section-title mb-4">
-              <span className="text-[var(--text-primary)]">Let's </span>
+              <span className="text-[var(--text-primary)]">Let&apos;s </span>
               <motion.span 
                 className="gradient-text"
                 animate={{
@@ -289,7 +289,7 @@ export default function ClientContactView() {
               </motion.span>
             </h2>
             <p className="text-[var(--text-secondary)] max-w-2xl mx-auto text-sm sm:text-base">
-              Have a project in mind? Let's work together to create something
+              Have a project in mind? Let&apos;s work together to create something
               amazing.
             </p>
           </motion.div>
@@ -411,7 +411,7 @@ export default function ClientContactView() {
                     }}
                     transition={{ duration: 3, repeat: Infinity }}
                   >
-                    "Great things are built one line of code at a time."
+                    &quot;Great things are built one line of code at a time.&quot;
                   </motion.p>
                   <p className="mt-2" style={{ color: "var(--primary)" }}>
                     — Danish Ali
@@ -472,7 +472,7 @@ export default function ClientContactView() {
                       >
                         <FaCheckCircle className="text-green-500 w-5 h-5" />
                         <span className="text-green-500 text-sm sm:text-base">
-                          Message sent successfully! I'll get back to you soon.
+                          Message sent successfully! I&apos;ll get back to you soon.
                         </span>
                       </motion.div>
                     )}
