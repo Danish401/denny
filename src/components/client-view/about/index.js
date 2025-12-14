@@ -5,6 +5,14 @@ import AnimationWrapper from "../animation-wrapper";
 import { motion, useInView, useMotionValue, useTransform } from "framer-motion";
 import Image from "next/image";
 import aboutMeImage from "../../../assets/about-image.png";
+// Import custom logo images
+import zohoCreatorLogo from "../../../assets/zoho-creator.png";
+import zohoCrmLogo from "../../../assets/zoho-crm.png";
+import zohoBooksLogo from "../../../assets/zoho-books.png";
+import gitLogo from "../../../assets/git-logo.png";
+import cppLogo from "../../../assets/cpp-logo.png";
+import reactLogo from "../../../assets/react-logo.png";
+import systemDesignLogo from "../../../assets/system-design-logo.png";
 import {
   FaUsers,
   FaProjectDiagram,
@@ -41,7 +49,9 @@ import {
   SiGraphql,
   SiPrisma,
   SiFramer,
+  SiCplusplus,
 } from "react-icons/si";
+import { TbBinaryTree } from "react-icons/tb";
 
 function variants() {
   return {
@@ -187,42 +197,150 @@ const skillIconsMap = {
   "zoho": { icon: SiZoho, color: "#C8202B" },
   "zoho creator": { icon: SiZoho, color: "#C8202B" },
   "zoho crm": { icon: SiZoho, color: "#C8202B" },
+  "zoho books": { icon: SiZoho, color: "#1A73E8" },
   "crm": { icon: FaUsersCog, color: "#7C3AED" },
   "book": { icon: FaBook, color: "#8B4513" },
   "books": { icon: FaBook, color: "#8B4513" },
+  "c++": { icon: SiCplusplus, color: "#00599C" },
+  "cpp": { icon: SiCplusplus, color: "#00599C" },
+  "cplusplus": { icon: SiCplusplus, color: "#00599C" },
+  "system design": { icon: TbBinaryTree, color: "#6366F1" },
+  "system-design": { icon: TbBinaryTree, color: "#6366F1" },
+  "systemdesign": { icon: TbBinaryTree, color: "#6366F1" },
+  "dsa": { icon: TbBinaryTree, color: "#10B981" },
+  "data structures": { icon: TbBinaryTree, color: "#10B981" },
 };
 
-// Skill Item Component with 3D effect and icons
+// Custom logo images mapping for premium look
+const customLogoMap = {
+  "zoho creator": { image: zohoCreatorLogo },
+  "zoho crm": { image: zohoCrmLogo },
+  "zoho books": { image: zohoBooksLogo },
+  "git": { image: gitLogo },
+  "c++": { image: cppLogo },
+  "cpp": { image: cppLogo },
+  "react": { image: reactLogo },
+  "react.js": { image: reactLogo },
+  "reactjs": { image: reactLogo },
+  "system design": { image: systemDesignLogo },
+};
+
+// Skill Item Component with enhanced 3D effect, icons, and custom logos
 function SkillItem({ skill, index }) {
   const skillLower = skill.trim().toLowerCase();
+  const customLogo = customLogoMap[skillLower];
   const skillData = skillIconsMap[skillLower];
   const IconComponent = skillData?.icon || FaCode;
   const iconColor = skillData?.color || "#7C3AED";
+  const ref = useRef(null);
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.8, rotateY: -90 }}
-      whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
-      transition={{ delay: index * 0.05, type: "spring", stiffness: 100 }}
+      ref={ref}
+      initial={{ opacity: 0, scale: 0.5, rotateY: -90, rotateX: 45 }}
+      whileInView={{ opacity: 1, scale: 1, rotateY: 0, rotateX: 0 }}
+      transition={{ 
+        delay: index * 0.06, 
+        type: "spring", 
+        stiffness: 120,
+        damping: 12,
+      }}
       viewport={{ once: true }}
       whileHover={{ 
-        scale: 1.1, 
-        rotateY: 10,
-        boxShadow: `0 10px 30px ${iconColor}40`,
+        scale: 1.12, 
+        rotateY: 15,
+        rotateX: -5,
+        z: 50,
+        y: -8,
       }}
-      className="skill-badge text-sm sm:text-base cursor-pointer flex items-center gap-2"
-      style={{ transformStyle: "preserve-3d" }}
+      whileTap={{ scale: 0.95 }}
+      className="skill-badge text-sm sm:text-base cursor-pointer flex items-center gap-3 px-4 py-3 rounded-xl backdrop-blur-md group relative overflow-hidden"
+      style={{ 
+        transformStyle: "preserve-3d",
+        perspective: "1000px",
+        background: `linear-gradient(135deg, var(--bg-card) 0%, ${iconColor}08 100%)`,
+        border: `1.5px solid ${iconColor}30`,
+        boxShadow: `0 4px 20px ${iconColor}15, inset 0 1px 0 rgba(255,255,255,0.1)`,
+      }}
     >
+      {/* Animated glow effect on hover */}
       <motion.div
-        whileHover={{ rotate: 360 }}
-        transition={{ duration: 0.5 }}
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        style={{
+          background: `radial-gradient(circle at center, ${iconColor}20 0%, transparent 70%)`,
+        }}
+      />
+      
+      {/* Shine effect */}
+      <motion.div
+        className="absolute inset-0 opacity-0 group-hover:opacity-100"
+        style={{
+          background: `linear-gradient(105deg, transparent 40%, ${iconColor}15 50%, transparent 60%)`,
+        }}
+        animate={{
+          x: ["-100%", "200%"],
+        }}
+        transition={{
+          duration: 1.5,
+          repeat: Infinity,
+          repeatDelay: 2,
+        }}
+      />
+
+      {customLogo ? (
+        <motion.div
+          whileHover={{ scale: 1.2, rotate: 10 }}
+          transition={{ duration: 0.3 }}
+          className="relative w-7 h-7 sm:w-8 sm:h-8 rounded-lg overflow-hidden bg-white/95 p-1 shadow-md"
+          style={{ 
+            transform: "translateZ(20px)",
+            boxShadow: `0 4px 12px ${iconColor}30`,
+          }}
+        >
+          <Image
+            src={customLogo.image}
+            alt={skill}
+            fill
+            className="object-contain p-0.5"
+          />
+        </motion.div>
+      ) : (
+        <motion.div
+          className="relative p-1.5 rounded-lg"
+          style={{ 
+            transform: "translateZ(20px)",
+            background: `${iconColor}15`,
+          }}
+          whileHover={{ 
+            rotate: 360, 
+            scale: 1.2,
+            boxShadow: `0 0 20px ${iconColor}50`,
+          }}
+          transition={{ duration: 0.6 }}
+        >
+          <IconComponent 
+            className="w-5 h-5 sm:w-6 sm:h-6" 
+            style={{ color: iconColor }}
+          />
+        </motion.div>
+      )}
+      
+      <span 
+        className="font-semibold text-[var(--text-primary)] relative z-10"
+        style={{ transform: "translateZ(10px)" }}
       >
-        <IconComponent 
-          className="w-4 h-4 sm:w-5 sm:h-5" 
-          style={{ color: iconColor }}
-        />
-      </motion.div>
-      <span>{skill.trim()}</span>
+        {skill.trim()}
+      </span>
+
+      {/* Animated border glow */}
+      <motion.div
+        className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 pointer-events-none"
+        style={{
+          border: `2px solid ${iconColor}`,
+          boxShadow: `0 0 20px ${iconColor}40, inset 0 0 20px ${iconColor}10`,
+        }}
+        transition={{ duration: 0.3 }}
+      />
     </motion.div>
   );
 }
@@ -251,7 +369,8 @@ export default function ClientAboutView({ data }) {
     },
   ];
 
-  const skills = data?.skills
+  // Base skills that will always be included
+  const baseSkills = data?.skills
     ? data.skills.split(",")
     : [
         "React",
@@ -264,18 +383,22 @@ export default function ClientAboutView({ data }) {
         "Express.js",
         "HTML5",
         "CSS3",
-        "Git",
         "Zoho Creator",
-        "CRM",
+        "Zoho CRM",
+        "Zoho Books",
         "PostgreSQL",
         "Redux",
         "Framer Motion",
       ];
+  
+  // Always include Git and System Design
+  const mustHaveSkills = ["Git", "System Design"];
+  const skills = [...new Set([...baseSkills, ...mustHaveSkills])];
 
   const techCategories = [
-    { icon: FaReact, label: "Frontend", color: "#61DAFB" },
-    { icon: FaNodeJs, label: "Backend", color: "#339933" },
-    { icon: FaDatabase, label: "Database", color: "#47A248" },
+    { icon: FaLaptopCode, label: "Frontend", color: "#7C3AED" },
+    { icon: FaServer, label: "Backend", color: "#F472B6" },
+    { icon: FaDatabase, label: "Database", color: "#14B8A6" },
   ];
 
   return (

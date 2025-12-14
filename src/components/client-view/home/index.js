@@ -1,5 +1,5 @@
 "use client";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
 import AnimationWrapper from "../animation-wrapper";
 import { useMemo, useRef, useState, useEffect } from "react";
 import {
@@ -9,7 +9,23 @@ import {
   FaArrowRight,
   FaEnvelope,
   FaPhone,
+  FaReact,
+  FaNodeJs,
+  FaPython,
+  FaDatabase,
+  FaCode,
+  FaRocket,
+  FaStar,
 } from "react-icons/fa";
+import {
+  SiTypescript,
+  SiNextdotjs,
+  SiMongodb,
+  SiTailwindcss,
+  SiJavascript,
+  SiCplusplus,
+} from "react-icons/si";
+import { TbBrandReactNative } from "react-icons/tb";
 import Image from "next/image";
 import aiImage from "../../../assets/ai-image.png";
 
@@ -98,16 +114,216 @@ function TypewriterText({
   );
 }
 
+// Floating Tech Icons Data
+const floatingTechIcons = [
+  { Icon: FaReact, color: "#61DAFB", size: 28 },
+  { Icon: SiTypescript, color: "#3178C6", size: 24 },
+  { Icon: FaNodeJs, color: "#339933", size: 26 },
+  { Icon: SiNextdotjs, color: "#ffffff", size: 24 },
+  { Icon: SiMongodb, color: "#47A248", size: 24 },
+  { Icon: SiTailwindcss, color: "#06B6D4", size: 24 },
+  { Icon: FaPython, color: "#3776AB", size: 24 },
+  { Icon: SiJavascript, color: "#F7DF1E", size: 22 },
+  { Icon: SiCplusplus, color: "#00599C", size: 24 },
+  { Icon: FaDatabase, color: "#7C3AED", size: 22 },
+];
+
+// Floating Tech Icon Component
+function FloatingTechIcon({ Icon, color, size, index, total }) {
+  const angle = (index / total) * 360;
+  const radius = 45 + (index % 3) * 8;
+  
+  return (
+    <motion.div
+      className="absolute hidden md:flex items-center justify-center"
+      style={{
+        width: size + 20,
+        height: size + 20,
+        left: `${50 + radius * Math.cos((angle * Math.PI) / 180)}%`,
+        top: `${50 + radius * Math.sin((angle * Math.PI) / 180)}%`,
+        transform: "translate(-50%, -50%)",
+      }}
+      initial={{ opacity: 0, scale: 0 }}
+      animate={{
+        opacity: [0.6, 1, 0.6],
+        scale: [0.9, 1.1, 0.9],
+        x: [0, Math.cos((angle * Math.PI) / 180) * 10, 0],
+        y: [0, Math.sin((angle * Math.PI) / 180) * 10, 0],
+        rotateY: [0, 360],
+      }}
+      transition={{
+        duration: 6 + index * 0.5,
+        repeat: Infinity,
+        delay: index * 0.3,
+        ease: "easeInOut",
+      }}
+    >
+      <motion.div
+        className="p-3 rounded-xl backdrop-blur-md"
+        style={{
+          background: `${color}15`,
+          border: `1px solid ${color}40`,
+          boxShadow: `0 0 20px ${color}30, 0 4px 15px rgba(0,0,0,0.1)`,
+        }}
+        whileHover={{
+          scale: 1.3,
+          boxShadow: `0 0 40px ${color}60, 0 8px 30px rgba(0,0,0,0.2)`,
+        }}
+      >
+        <Icon style={{ color, fontSize: size }} />
+      </motion.div>
+    </motion.div>
+  );
+}
+
+// Particle System
+function ParticleField() {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {[...Array(30)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full"
+          style={{
+            width: Math.random() * 4 + 2,
+            height: Math.random() * 4 + 2,
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            background: `rgba(${i % 3 === 0 ? "124, 58, 237" : i % 3 === 1 ? "244, 114, 182" : "20, 184, 166"}, ${0.3 + Math.random() * 0.4})`,
+          }}
+          animate={{
+            y: [0, -100 - Math.random() * 100],
+            x: [0, (Math.random() - 0.5) * 50],
+            opacity: [0, 1, 0],
+            scale: [0, 1, 0],
+          }}
+          transition={{
+            duration: 4 + Math.random() * 4,
+            repeat: Infinity,
+            delay: Math.random() * 5,
+            ease: "easeOut",
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+// Code Rain Effect
+function CodeRain() {
+  const codeChars = ["</>", "{}", "[]", "()", "=>", "&&", "||", "++", "==", "!="];
+  
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20">
+      {[...Array(15)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute text-xs font-mono"
+          style={{
+            left: `${5 + i * 7}%`,
+            top: "-20px",
+            color: i % 3 === 0 ? "#7C3AED" : i % 3 === 1 ? "#F472B6" : "#14B8A6",
+          }}
+          animate={{
+            y: ["0vh", "100vh"],
+            opacity: [0, 0.6, 0],
+          }}
+          transition={{
+            duration: 8 + i * 0.5,
+            repeat: Infinity,
+            delay: i * 0.8,
+            ease: "linear",
+          }}
+        >
+          {codeChars[i % codeChars.length]}
+        </motion.div>
+      ))}
+    </div>
+  );
+}
+
+// Scattered Floating Tech Icons across the screen
+const scatteredTechIcons = [
+  { Icon: FaReact, color: "#61DAFB", left: "5%", top: "15%", size: 24 },
+  { Icon: SiTypescript, color: "#3178C6", left: "92%", top: "20%", size: 22 },
+  { Icon: FaNodeJs, color: "#339933", left: "8%", top: "45%", size: 26 },
+  { Icon: SiMongodb, color: "#47A248", left: "88%", top: "55%", size: 24 },
+  { Icon: SiNextdotjs, color: "#ffffff", left: "15%", top: "75%", size: 22 },
+  { Icon: SiTailwindcss, color: "#06B6D4", left: "85%", top: "80%", size: 24 },
+  { Icon: FaPython, color: "#3776AB", left: "3%", top: "85%", size: 22 },
+  { Icon: SiJavascript, color: "#F7DF1E", left: "95%", top: "40%", size: 20 },
+  { Icon: FaDatabase, color: "#7C3AED", left: "12%", top: "25%", size: 20 },
+  { Icon: SiCplusplus, color: "#00599C", left: "90%", top: "70%", size: 22 },
+  { Icon: FaCode, color: "#F472B6", left: "6%", top: "60%", size: 22 },
+  { Icon: FaRocket, color: "#14B8A6", left: "93%", top: "10%", size: 20 },
+];
+
 // Floating Shapes Component with 3D effect
 function FloatingShapes() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {/* Particle Field */}
+      <ParticleField />
+      
+      {/* Code Rain */}
+      <CodeRain />
+
+      {/* Floating Tech Icons scattered across the screen */}
+      {scatteredTechIcons.map((item, index) => (
+        <motion.div
+          key={`tech-${index}`}
+          className="absolute hidden sm:flex items-center justify-center z-10"
+          style={{
+            left: item.left,
+            top: item.top,
+          }}
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{
+            opacity: [0.5, 0.9, 0.5],
+            scale: [0.9, 1.1, 0.9],
+            y: [0, -20 - (index % 3) * 10, 0],
+            x: [0, (index % 2 === 0 ? 15 : -15), 0],
+            rotate: [0, index % 2 === 0 ? 10 : -10, 0],
+          }}
+          transition={{
+            duration: 5 + index * 0.4,
+            repeat: Infinity,
+            delay: index * 0.3,
+            ease: "easeInOut",
+          }}
+        >
+          <motion.div
+            className="p-2.5 sm:p-3 rounded-xl backdrop-blur-sm"
+            style={{
+              background: `linear-gradient(135deg, ${item.color}15, ${item.color}08)`,
+              border: `1px solid ${item.color}30`,
+              boxShadow: `0 0 25px ${item.color}25, 0 4px 20px rgba(0,0,0,0.08)`,
+            }}
+            whileHover={{
+              scale: 1.4,
+              boxShadow: `0 0 50px ${item.color}50, 0 8px 40px rgba(0,0,0,0.15)`,
+            }}
+            animate={{
+              boxShadow: [
+                `0 0 20px ${item.color}20, 0 4px 15px rgba(0,0,0,0.05)`,
+                `0 0 35px ${item.color}40, 0 6px 25px rgba(0,0,0,0.1)`,
+                `0 0 20px ${item.color}20, 0 4px 15px rgba(0,0,0,0.05)`,
+              ],
+            }}
+            transition={{ duration: 3, repeat: Infinity }}
+          >
+            <item.Icon style={{ color: item.color, fontSize: item.size }} />
+          </motion.div>
+        </motion.div>
+      ))}
+      
       {/* Blob shapes */}
       <motion.div 
         className="blob blob-1"
         animate={{
           rotateX: [0, 20, 0],
           rotateY: [0, 20, 0],
+          scale: [1, 1.1, 1],
         }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
       />
@@ -116,48 +332,134 @@ function FloatingShapes() {
         animate={{
           rotateX: [0, -20, 0],
           rotateY: [0, -20, 0],
+          scale: [1.1, 1, 1.1],
         }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
       />
       <div className="blob blob-3 hidden md:block" />
 
-      {/* 3D Floating elements */}
-      {[...Array(8)].map((_, i) => (
+      {/* 3D Glowing orbs */}
+      {[...Array(6)].map((_, i) => (
         <motion.div
           key={i}
           className="absolute rounded-full"
           style={{
-            left: `${10 + i * 12}%`,
-            top: `${15 + (i % 4) * 20}%`,
-            width: `${8 + i * 2}px`,
-            height: `${8 + i * 2}px`,
-            background: `linear-gradient(135deg, ${
+            left: `${10 + i * 15}%`,
+            top: `${20 + (i % 3) * 25}%`,
+            width: `${15 + i * 4}px`,
+            height: `${15 + i * 4}px`,
+            background: `radial-gradient(circle, ${
               i % 3 === 0 ? "#7C3AED" : i % 3 === 1 ? "#F472B6" : "#14B8A6"
-            }, ${i % 3 === 0 ? "#F472B6" : i % 3 === 1 ? "#14B8A6" : "#7C3AED"})`,
-            boxShadow: `0 0 ${10 + i * 5}px ${
+            } 0%, transparent 70%)`,
+            boxShadow: `0 0 ${20 + i * 8}px ${
               i % 3 === 0
-                ? "rgba(124, 58, 237, 0.5)"
+                ? "rgba(124, 58, 237, 0.6)"
                 : i % 3 === 1
-                ? "rgba(244, 114, 182, 0.5)"
-                : "rgba(20, 184, 166, 0.5)"
+                ? "rgba(244, 114, 182, 0.6)"
+                : "rgba(20, 184, 166, 0.6)"
             }`,
           }}
           animate={{
-            y: [0, -30 - i * 5, 0],
-            x: [0, (i % 2 === 0 ? 15 : -15), 0],
-            scale: [1, 1.2, 1],
-            rotateZ: [0, 360],
-            opacity: [0.4, 0.8, 0.4],
+            y: [0, -40 - i * 8, 0],
+            x: [0, (i % 2 === 0 ? 20 : -20), 0],
+            scale: [1, 1.3, 1],
+            opacity: [0.5, 1, 0.5],
           }}
           transition={{
-            duration: 4 + i * 0.5,
+            duration: 5 + i * 0.8,
             repeat: Infinity,
-            delay: i * 0.3,
+            delay: i * 0.4,
             ease: "easeInOut",
           }}
         />
       ))}
+
+      {/* Floating geometric shapes */}
+      <motion.div
+        className="absolute top-1/4 left-[10%] w-8 h-8 border-2 border-purple-500/30"
+        style={{ transform: "rotate(45deg)" }}
+        animate={{
+          rotate: [45, 225, 45],
+          scale: [1, 1.2, 1],
+          opacity: [0.3, 0.7, 0.3],
+        }}
+        transition={{ duration: 8, repeat: Infinity }}
+      />
+      <motion.div
+        className="absolute bottom-1/3 right-[15%] w-6 h-6 border-2 border-pink-500/30 rounded-full"
+        animate={{
+          scale: [1, 1.5, 1],
+          opacity: [0.3, 0.6, 0.3],
+        }}
+        transition={{ duration: 6, repeat: Infinity }}
+      />
+      <motion.div
+        className="absolute top-1/2 right-[8%] w-0 h-0"
+        style={{
+          borderLeft: "10px solid transparent",
+          borderRight: "10px solid transparent",
+          borderBottom: "16px solid rgba(20, 184, 166, 0.3)",
+        }}
+        animate={{
+          rotate: [0, 360],
+          scale: [1, 1.3, 1],
+        }}
+        transition={{ duration: 10, repeat: Infinity }}
+      />
     </div>
+  );
+}
+
+// Floating Tech Icons positioned OUTSIDE the image
+function FloatingTechBadges() {
+  const badges = [
+    { Icon: SiTypescript, color: "#3178C6", position: { top: "10%", right: "-70px" } },
+    { Icon: SiNextdotjs, color: "#ffffff", position: { top: "30%", left: "-70px" } },
+    { Icon: FaDatabase, color: "#47A248", position: { bottom: "30%", right: "-70px" } },
+    { Icon: FaPython, color: "#3776AB", position: { bottom: "10%", left: "-70px" } },
+  ];
+
+  return (
+    <>
+      {badges.map((item, index) => (
+        <motion.div
+          key={index}
+          className="absolute hidden lg:flex items-center justify-center z-30"
+          style={item.position}
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ 
+            opacity: 1, 
+            scale: 1,
+            y: [0, -12, 0],
+          }}
+          transition={{
+            opacity: { delay: 0.8 + index * 0.15 },
+            scale: { delay: 0.8 + index * 0.15, type: "spring", stiffness: 200 },
+            y: { duration: 3 + index * 0.4, repeat: Infinity, ease: "easeInOut", delay: index * 0.3 },
+          }}
+          whileHover={{ scale: 1.3, rotate: 10 }}
+        >
+          <motion.div
+            className="p-3.5 rounded-2xl backdrop-blur-md"
+            style={{
+              background: `linear-gradient(135deg, ${item.color}25, ${item.color}10)`,
+              border: `1.5px solid ${item.color}50`,
+              boxShadow: `0 0 30px ${item.color}40, 0 10px 40px rgba(0,0,0,0.15)`,
+            }}
+            animate={{
+              boxShadow: [
+                `0 0 20px ${item.color}30, 0 8px 30px rgba(0,0,0,0.1)`,
+                `0 0 40px ${item.color}60, 0 12px 40px rgba(0,0,0,0.2)`,
+                `0 0 20px ${item.color}30, 0 8px 30px rgba(0,0,0,0.1)`,
+              ],
+            }}
+            transition={{ duration: 2.5, repeat: Infinity }}
+          >
+            <item.Icon style={{ color: item.color, fontSize: 24 }} />
+          </motion.div>
+        </motion.div>
+      ))}
+    </>
   );
 }
 
@@ -233,6 +535,7 @@ export default function ClientHomeView({ data }) {
 
   const roles = [
     "Full Stack Developer",
+    "SDE",
     "React Specialist",
     "UI/UX Enthusiast",
     "Problem Solver",
@@ -468,62 +771,139 @@ export default function ClientHomeView({ data }) {
                   </div>
                 </div>
 
+                {/* Orbiting Icons */}
+                <FloatingTechBadges />
+
                 {/* Floating Elements with 3D depth */}
                 <motion.div
                   className="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 w-14 h-14 sm:w-16 sm:h-16 glass-card rounded-2xl flex items-center justify-center"
-                  style={{ transform: "translateZ(80px)" }}
+                  style={{ 
+                    transform: "translateZ(80px)",
+                    background: "linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(244, 114, 182, 0.2))",
+                    boxShadow: "0 8px 32px rgba(124, 58, 237, 0.3)",
+                  }}
                   animate={{ 
                     y: [0, -12, 0],
                     rotateZ: [0, 10, 0, -10, 0],
+                    boxShadow: [
+                      "0 8px 32px rgba(124, 58, 237, 0.3)",
+                      "0 12px 40px rgba(124, 58, 237, 0.5)",
+                      "0 8px 32px rgba(124, 58, 237, 0.3)",
+                    ],
                   }}
                   transition={{ duration: 4, repeat: Infinity }}
+                  whileHover={{ scale: 1.2, rotate: 360 }}
                 >
-                  <span className="text-2xl sm:text-3xl">💻</span>
+                  <FaRocket className="text-2xl sm:text-3xl text-purple-400" />
                 </motion.div>
 
                 <motion.div
                   className="absolute -bottom-2 -left-3 sm:-bottom-3 sm:-left-4 glass-card rounded-xl flex items-center gap-2 px-3 py-2"
-                  style={{ transform: "translateZ(60px)" }}
+                  style={{ 
+                    transform: "translateZ(60px)",
+                    background: "linear-gradient(135deg, rgba(97, 218, 251, 0.2), rgba(97, 218, 251, 0.1))",
+                    border: "1px solid rgba(97, 218, 251, 0.3)",
+                    boxShadow: "0 8px 32px rgba(97, 218, 251, 0.2)",
+                  }}
                   animate={{ 
                     y: [0, 10, 0],
                     rotateZ: [0, -5, 0, 5, 0],
                   }}
                   transition={{ duration: 3.5, repeat: Infinity, delay: 0.5 }}
+                  whileHover={{ scale: 1.1, y: -5 }}
                 >
-                  <span className="text-xl sm:text-2xl">⚛️</span>
+                  <FaReact className="text-xl sm:text-2xl text-cyan-400 animate-spin" style={{ animationDuration: "3s" }} />
                   <span className="text-[var(--text-primary)] text-xs sm:text-sm font-semibold">
-                    React
+                    React.js
                   </span>
                 </motion.div>
 
                 <motion.div
                   className="absolute top-1/2 -right-4 sm:-right-6 w-10 h-10 sm:w-12 sm:h-12 glass-card rounded-full flex items-center justify-center hidden sm:flex"
-                  style={{ transform: "translateZ(70px)" }}
+                  style={{ 
+                    transform: "translateZ(70px)",
+                    background: "linear-gradient(135deg, rgba(49, 120, 198, 0.2), rgba(49, 120, 198, 0.1))",
+                    border: "1px solid rgba(49, 120, 198, 0.3)",
+                    boxShadow: "0 8px 32px rgba(49, 120, 198, 0.2)",
+                  }}
                   animate={{ 
                     x: [0, 10, 0], 
                     rotate: [0, 360],
                     scale: [1, 1.1, 1],
                   }}
                   transition={{ duration: 6, repeat: Infinity }}
+                  whileHover={{ scale: 1.3 }}
                 >
-                  <span className="text-lg sm:text-xl">🚀</span>
+                  <SiTypescript className="text-blue-400 text-lg sm:text-xl" />
                 </motion.div>
 
-                {/* New floating element - Framer Motion */}
+                {/* Node.js floating element */}
                 <motion.div
-                  className="absolute top-1/4 -left-4 sm:-left-6 glass-card rounded-xl px-2 py-1.5 hidden sm:flex items-center gap-1"
-                  style={{ transform: "translateZ(90px)" }}
+                  className="absolute top-1/4 -left-4 sm:-left-6 glass-card rounded-xl px-2 py-1.5 hidden sm:flex items-center gap-1.5"
+                  style={{ 
+                    transform: "translateZ(90px)",
+                    background: "linear-gradient(135deg, rgba(51, 153, 51, 0.2), rgba(51, 153, 51, 0.1))",
+                    border: "1px solid rgba(51, 153, 51, 0.3)",
+                    boxShadow: "0 8px 32px rgba(51, 153, 51, 0.2)",
+                  }}
                   animate={{ 
                     y: [0, -8, 0],
                     x: [0, 5, 0],
                   }}
                   transition={{ duration: 4, repeat: Infinity, delay: 1 }}
+                  whileHover={{ scale: 1.1, x: 10 }}
                 >
-                  <span className="text-sm">🎬</span>
+                  <FaNodeJs className="text-green-500 text-sm" />
                   <span className="text-[var(--text-primary)] text-xs font-semibold">
-                    Framer
+                    Node.js
                   </span>
                 </motion.div>
+
+                {/* MongoDB floating element */}
+                <motion.div
+                  className="absolute -bottom-6 right-1/4 glass-card rounded-xl px-2 py-1.5 hidden sm:flex items-center gap-1.5"
+                  style={{ 
+                    transform: "translateZ(75px)",
+                    background: "linear-gradient(135deg, rgba(71, 162, 72, 0.2), rgba(71, 162, 72, 0.1))",
+                    border: "1px solid rgba(71, 162, 72, 0.3)",
+                    boxShadow: "0 8px 32px rgba(71, 162, 72, 0.2)",
+                  }}
+                  animate={{ 
+                    y: [0, 8, 0],
+                    x: [0, -5, 0],
+                  }}
+                  transition={{ duration: 5, repeat: Infinity, delay: 0.8 }}
+                  whileHover={{ scale: 1.1, y: -5 }}
+                >
+                  <SiMongodb className="text-green-600 text-sm" />
+                  <span className="text-[var(--text-primary)] text-xs font-semibold">
+                    MongoDB
+                  </span>
+                </motion.div>
+
+                {/* Stars decoration */}
+                {[...Array(5)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="absolute hidden lg:block"
+                    style={{
+                      left: `${20 + i * 15}%`,
+                      top: `${10 + (i % 3) * 30}%`,
+                    }}
+                    animate={{
+                      opacity: [0.3, 1, 0.3],
+                      scale: [0.8, 1.2, 0.8],
+                      rotate: [0, 180, 360],
+                    }}
+                    transition={{
+                      duration: 3 + i * 0.5,
+                      repeat: Infinity,
+                      delay: i * 0.4,
+                    }}
+                  >
+                    <FaStar className="text-yellow-400/60" style={{ fontSize: 8 + i * 2 }} />
+                  </motion.div>
+                ))}
               </motion.div>
             </motion.div>
           </motion.div>
